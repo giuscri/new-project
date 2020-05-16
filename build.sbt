@@ -1,20 +1,25 @@
 import Dependencies._
-
-enablePlugins(JavaAppPackaging)
+import Decorators._
 
 scalaVersion := "2.12.11"
-dockerBaseImage := "openjdk:8u222-jre-slim"
+
+skip in publish := true
 
 lazy val fizzbuzz = (project in file("fizzbuzz"))
   .settings(
     libraryDependencies += scalatest % Test,
-    version := "0.0.1",
+  )
+  .docker
+
+lazy val fizz = (project in file("fizz"))
+  .settings(
+    libraryDependencies += scalatest % Test,
+    publish / skip := true
   )
 
-lazy val root = (project in file("."))
-  .dependsOn(fizzbuzz)
+lazy val buzz = (project in file("buzz"))
   .settings(
-    name := "new-project",
     libraryDependencies += scalatest % Test,
-    version := "0.0.10",
   )
+  .docker
+
